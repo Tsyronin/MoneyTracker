@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyTracker", "MoneyTracker\MoneyTracker.csproj", "{FEB0DF48-072F-40B3-BE86-D312185D8493}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{B159325C-8186-4E86-9D14-0903B1A7BF3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{2F0FFC92-962E-411C-9A9E-4157E1341051}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEB0DF48-072F-40B3-BE86-D312185D8493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB0DF48-072F-40B3-BE86-D312185D8493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB0DF48-072F-40B3-BE86-D312185D8493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB0DF48-072F-40B3-BE86-D312185D8493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B159325C-8186-4E86-9D14-0903B1A7BF3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B159325C-8186-4E86-9D14-0903B1A7BF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B159325C-8186-4E86-9D14-0903B1A7BF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B159325C-8186-4E86-9D14-0903B1A7BF3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F0FFC92-962E-411C-9A9E-4157E1341051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F0FFC92-962E-411C-9A9E-4157E1341051}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F0FFC92-962E-411C-9A9E-4157E1341051}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F0FFC92-962E-411C-9A9E-4157E1341051}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EBDCB765-B476-4BED-9803-744C2B00F29B}
+	EndGlobalSection
+EndGlobal
