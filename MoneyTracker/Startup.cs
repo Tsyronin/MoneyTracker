@@ -1,8 +1,11 @@
+using AutoMapper;
 using BLL;
+using BLL.Helpers;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL;
 using DAL.Entities;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +41,11 @@ namespace MoneyTracker
             services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBankAccountService, BankAccountService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<MonoHelper>();
+
+            services.AddAutoMapper(typeof(AutomapperProfile));
 
             services.AddAuthentication(options =>
             {

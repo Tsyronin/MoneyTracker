@@ -1,5 +1,5 @@
 ﻿using BLL.Interfaces;
-using BLL.Models;
+using BLL.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MoneyTracker.Controllers
 {
@@ -17,10 +19,12 @@ namespace MoneyTracker.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IBankAccountService _bankAccountService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IBankAccountService bankAccountService)
         {
             _userService = userService;
+            _bankAccountService = bankAccountService;
         }
 
 
@@ -70,6 +74,16 @@ namespace MoneyTracker.Controllers
                 //roles = roles
             };
             return Json(response);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddBankAccount([FromBody] BankAccountDto bankAccountDto)
+        {
+            bankAccountDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _bankAccountService.AddBankAccountAsync(bankAccountDto);
+
+            return Ok();
         }
     }
 

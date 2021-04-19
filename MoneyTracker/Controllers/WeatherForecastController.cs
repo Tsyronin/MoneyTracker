@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BLL.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -25,9 +26,11 @@ namespace MoneyTracker.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public IEnumerable<WeatherForecast> Get()
+        //[Authorize]
+        public async Task<IEnumerable<WeatherForecast>> GetAsync()
         {
+            //await MonoHelper.GetRecentExpencesAsync("A-bqZRFJKiHYEjsKKyRmSw", null);
+
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

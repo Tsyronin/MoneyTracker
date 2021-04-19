@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BLL.Models
+namespace BLL.Dto
 {
     public class AuthModel
     {

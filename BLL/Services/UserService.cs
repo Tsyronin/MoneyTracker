@@ -1,6 +1,6 @@
 ﻿using BLL.Exceptions;
 using BLL.Interfaces;
-using BLL.Models;
+using BLL.Dto;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -130,6 +130,11 @@ namespace BLL.Services
                 }
             }
             return claims;
+        }
+
+        public async Task AddBankAccount()
+        {
+
         }
     }
 

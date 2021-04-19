@@ -10,8 +10,9 @@ namespace DAL
     public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions options) : base(options)
-        {
+        {   }
 
-        }
+        public virtual DbSet<UserBankAccount> UserBankAccounts { get; set; }
+
     }
 }
