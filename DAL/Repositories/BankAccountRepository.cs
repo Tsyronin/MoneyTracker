@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
+    ///<inheritdoc cref="IBankAccountRepository"/>
     class BankAccountRepository : IBankAccountRepository
     {
         /// <summary>
@@ -55,7 +56,7 @@ namespace DAL.Repositories
 
         public IQueryable<UserBankAccount> GetUserBankAccounts(string userId)
         {
-            return _context.UserBankAccounts.Where(a => a.UserId == userId);
+            return _context.UserBankAccounts.Where(a => a.AppUserId == userId);
         }
 
         public void Update(UserBankAccount entity)

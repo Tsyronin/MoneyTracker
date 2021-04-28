@@ -36,7 +36,7 @@ namespace BLL.Services
             switch (account.Bank)
             {
                 case "Mono":
-                    if (await _monoHelper.GetRecentExpensesAsync("0", null) == null)
+                    if (await _monoHelper.GetRecentExpensesAsync(account.Token, null) == null)
                         throw new ModelException("Invalid Bank Account");
                     break;
                 default:

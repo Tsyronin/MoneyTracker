@@ -14,6 +14,9 @@ namespace DAL
         /// </summary>
         private readonly AppDbContext _context;
         private IBankAccountRepository _bankAccountRepository;
+        private IExpenseRepository _expenseRepository;
+        private ICategoryRepository _categoryRepository;
+
 
         /// <summary>
         /// Basic constructor.
@@ -33,6 +36,28 @@ namespace DAL
                 return _bankAccountRepository;
             }
         }
+
+        public IExpenseRepository ExpenseRepository
+        {
+            get
+            {
+                if (_expenseRepository is null)
+                    _expenseRepository = new ExpenseRepository(_context);
+                return _expenseRepository;
+            }
+        }
+
+        public ICategoryRepository CategoryRepository
+        {
+            get
+            {
+                if (_categoryRepository is null)
+                    _categoryRepository = new CategoryRepository(_context);
+                return _categoryRepository;
+            }
+        }
+
+
 
         public async Task<int> SaveAsync()
         {

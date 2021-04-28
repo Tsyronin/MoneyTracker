@@ -131,11 +131,5 @@ namespace BLL.Services
             }
             return claims;
         }
-
-        public async Task AddBankAccount()
-        {
-
-        }
     }
-
 }

@@ -4,10 +4,10 @@ using System.Text;
 
 namespace BLL.Dto
 {
-    public class ExpenceDto
+    public class MonoApiExpense
     {
         public string Id { get; set; }
-        public int Time { get; set; }
+        public long Time { get; set; }
         public string Description { get; set; }
         public int Mcc { get; set; }
         public bool Hold { get; set; }

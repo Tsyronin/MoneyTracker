@@ -27,10 +27,8 @@ namespace MoneyTracker.Controllers
 
         [HttpGet]
         //[Authorize]
-        public async Task<IEnumerable<WeatherForecast>> GetAsync()
+        public IEnumerable<WeatherForecast> Get()
         {
-            //await MonoHelper.GetRecentExpencesAsync("A-bqZRFJKiHYEjsKKyRmSw", null);
-
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

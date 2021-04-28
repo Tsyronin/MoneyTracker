@@ -41,7 +41,9 @@ namespace MoneyTracker
             services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IBankAccountService, BankAccountService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<MonoHelper>();
 

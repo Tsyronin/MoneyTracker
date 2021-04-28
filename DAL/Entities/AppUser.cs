@@ -7,5 +7,7 @@ namespace DAL.Entities
 {
     public class AppUser : IdentityUser
     {
+        public virtual ICollection<UserBankAccount> UserBankAccounts { get; set; }
+        public virtual ICollection<Category> Categories { get; set; }
     }
 }

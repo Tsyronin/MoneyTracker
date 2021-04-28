@@ -4,11 +4,10 @@ using System.Text;
 
 namespace BLL.Dto
 {
-    public class BankAccountDto
+    public class CategoryDto
     {
         public int Id { get; set; }
         public string AppUserId { get; set; }
-        public string Bank { get; set; }
-        public string Token { get; set; }
+        public string Name { get; set; }
     }
 }

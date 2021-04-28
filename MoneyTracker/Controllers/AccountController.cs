@@ -80,7 +80,7 @@ namespace MoneyTracker.Controllers
         [Authorize]
         public async Task<IActionResult> AddBankAccount([FromBody] BankAccountDto bankAccountDto)
         {
-            bankAccountDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bankAccountDto.AppUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _bankAccountService.AddBankAccountAsync(bankAccountDto);
 
             return Ok();

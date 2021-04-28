@@ -13,6 +13,7 @@ namespace DAL
         {   }
 
         public virtual DbSet<UserBankAccount> UserBankAccounts { get; set; }
-
+        public virtual DbSet<Expense> Expenses { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
     }
 }

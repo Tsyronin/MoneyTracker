@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Entities
+namespace BLL.Dto
 {
-    public class Expense
+    public class ExpenseDto
     {
         public int Id { get; set; }
         public int UserBankAccountId { get; set; }
-        public int CategoryId { get; set; }
         public string BankExpenseId { get; set; }
         public DateTime Time { get; set; }
         public string Description { get; set; }
@@ -24,9 +23,5 @@ namespace DAL.Entities
         public string ReceiptId { get; set; }
         public string CounterEdrpou { get; set; }
         public string CounterIban { get; set; }
-
-        public virtual UserBankAccount UserBankAccount { get; set; }
-
-        public virtual Category Category { get; set; }
     }
 }
