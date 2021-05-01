@@ -33,5 +33,26 @@ namespace MoneyTracker.Controllers
 
             return notCheckedExpenses;
         }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AddExpense(ExpenseDto expense)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _expenseService.AddExpense(userId, expense);
+
+            return Ok();
+        }
+
+        [HttpGet("/api/Expense/History")]
+        [Authorize]
+        public IEnumerable<ExpenseDto> GetChechedExpenseHistory()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var expenseHistory = _expenseService.GetExpenseHistory(userId);
+
+            return expenseHistory;
+        }
+
     }
 }

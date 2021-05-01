@@ -17,6 +17,8 @@ namespace BLL
                 .ForMember(ed => ed.Id, x => x.MapFrom(mae => 0));
 
             CreateMap<Category, CategoryDto>().ReverseMap();
+
+            CreateMap<ExpenseDto, Expense>().ReverseMap();
         }
     }
 }

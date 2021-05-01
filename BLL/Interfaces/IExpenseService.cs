@@ -9,5 +9,7 @@ namespace BLL.Interfaces
     public interface IExpenseService
     {
         Task<IEnumerable<ExpenseDto>> GetNotChackedExpensesAsync(string userId);
+        Task AddExpense(string userId, ExpenseDto expenseDto);
+        IEnumerable<ExpenseDto> GetExpenseHistory(string userId);
     }
 }

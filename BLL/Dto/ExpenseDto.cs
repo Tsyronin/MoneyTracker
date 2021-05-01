@@ -8,6 +8,7 @@ namespace BLL.Dto
     {
         public int Id { get; set; }
         public int UserBankAccountId { get; set; }
+        public int CategoryId { get; set; }
         public string BankExpenseId { get; set; }
         public DateTime Time { get; set; }
         public string Description { get; set; }
