@@ -57,7 +57,9 @@ namespace DAL.Repositories
         {
             var userAccountIds = _context.UserBankAccounts.Where(uba => uba.AppUserId == userId).Select(uba => uba.Id);
             var from = DateTime.Now.AddDays(-30);
-            var recentExpenses = _context.Expenses.Where(e => userAccountIds.Contains(e.UserBankAccountId) && e.Time > from);
+            var recentExpenses = _context.Expenses
+                                        .Include(e => e.Category)
+                                        .Where(e => userAccountIds.Contains(e.UserBankAccountId) && e.Time > from);
             return recentExpenses;
         }
 

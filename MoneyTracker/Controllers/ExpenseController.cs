@@ -54,5 +54,14 @@ namespace MoneyTracker.Controllers
             return expenseHistory;
         }
 
+        [HttpGet("/api/Expense/Statistics")]
+        [Authorize]
+        public IEnumerable<Statistic> GetStatistics()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var statistics = _expenseService.GetStatistics(userId);
+
+            return statistics;
+        }
     }
 }

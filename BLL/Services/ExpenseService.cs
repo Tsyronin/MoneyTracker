@@ -71,5 +71,47 @@ namespace BLL.Services
             var checkedExpenseDtos = _mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseDto>>(checkedExpenses);
             return checkedExpenseDtos;
         }
+
+        public IEnumerable<Statistic> GetStatistics(string userId)
+        {
+            var statistics = new List<Statistic>();
+            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentExpenses(userId).ToList();
+            var timePeriodStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var timePeriodEnd = timePeriodStart.AddMonths(1);
+            do
+            {
+                var statistic = CollectStatistic(checkedExpenses, timePeriodStart, timePeriodEnd);
+                statistics.Add(statistic);
+                timePeriodEnd = timePeriodStart;
+                timePeriodStart = timePeriodStart.AddMonths(-1);
+            } while (checkedExpenses.Any(ce => ce.Time < timePeriodEnd));
+            return statistics.OrderBy(s => s.SDate).AsEnumerable();
+        }
+
+        private Statistic CollectStatistic(IEnumerable<Expense> expenses, DateTime sDate, DateTime eDate)
+        {
+            var statistic = new Statistic()
+            {
+                SDate = sDate,
+                EDate = eDate,
+                Parts = new List<CategoryPercent>()
+            };
+            var relevantExpenses = expenses.Where(e => e.Time > sDate && e.Time < eDate).ToList();
+            var categories = relevantExpenses.Select(re => re.Category).Distinct();
+            foreach(var category in categories)
+            {
+                var categoryExpenseCount = relevantExpenses.Count(re => re.CategoryId == category.Id);
+                var totalExpenseCount = relevantExpenses.Count;
+                var percent = categoryExpenseCount / totalExpenseCount;
+                var catPercent = new CategoryPercent
+                {
+                    CategoryId = category.Id,
+                    CategoryName = category.Name,
+                    Percentage = Math.Round((double)percent, 1)
+                };
+                statistic.Parts.Add(catPercent);
+            }
+            return statistic;
+        }
     }
 }

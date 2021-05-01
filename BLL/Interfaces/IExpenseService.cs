@@ -11,5 +11,6 @@ namespace BLL.Interfaces
         Task<IEnumerable<ExpenseDto>> GetNotChackedExpensesAsync(string userId);
         Task AddExpense(string userId, ExpenseDto expenseDto);
         IEnumerable<ExpenseDto> GetExpenseHistory(string userId);
+        IEnumerable<Statistic> GetStatistics(string userId);
     }
 }
