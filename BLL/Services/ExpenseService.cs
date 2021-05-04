@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BLL.Dto;
+using BLL.Dto.BankSpecificExpenseModels;
 using BLL.Exceptions;
 using BLL.Helpers;
 using BLL.Interfaces;
@@ -19,15 +20,17 @@ namespace BLL.Services
         readonly IUnitOfWork _dataBase;
         private readonly UserManager<AppUser> _userManager;
         readonly MonoHelper _monoHelper;
+        readonly PrivatHelper _privatHelper;
         readonly IMapper _mapper;
 
 
-        public ExpenseService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, MonoHelper monoHelper, IMapper mapper)
+        public ExpenseService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager, MonoHelper monoHelper, PrivatHelper privatHelper, IMapper mapper)
         {
             _dataBase = unitOfWork;
             _userManager = userManager;
             _monoHelper = monoHelper;
             _monoHelper.InitializeClient();
+            _privatHelper = privatHelper;
             _mapper = mapper;
         }
 
@@ -41,10 +44,20 @@ namespace BLL.Services
                 var monoAccount = userBankAccounts.First(uba => uba.Bank == "Mono");
                 var monoApiExpenses = await _monoHelper.GetRecentExpensesAsync(monoAccount.Token, null);
                 var monoExpenses = _mapper.Map<IEnumerable<MonoApiExpense>, IEnumerable<ExpenseDto>>(monoApiExpenses);
-                var chechedMonoExpensesIds = checkedExpenses.Where(ce => ce.UserBankAccountId == monoAccount.Id).Select(ce => ce.BankExpenseId).ToList();
-                var notCkeckedMonoExpenses = monoExpenses.Where(me => !chechedMonoExpensesIds.Contains(me.BankExpenseId)).ToList();
+                var chechedMonoExpensesIds = checkedExpenses.Where(ce => ce.UserBankAccountId == monoAccount.Id).Select(ce => ce.ExpenseIdentInBank).ToList();
+                var notCkeckedMonoExpenses = monoExpenses.Where(me => !chechedMonoExpensesIds.Contains(me.ExpenseIdentInBank)).ToList();
                 notCkeckedMonoExpenses.ForEach(ncme => ncme.UserBankAccountId = monoAccount.Id);
                 expenses.AddRange(notCkeckedMonoExpenses);
+            }
+            if (userBankAccounts.SingleOrDefault(uba => uba.Bank == "Privat") != null)
+            {
+                var privatAccount = userBankAccounts.First(uba => uba.Bank == "Privat");
+                var privatApiExpenses = await _privatHelper.GetRecentExpensesAsync(privatAccount.MerchantId, privatAccount.Card, privatAccount.Password);
+                var privatExpenses = _mapper.Map<IEnumerable<PrivatApiExpense>, IEnumerable<ExpenseDto>>(privatApiExpenses);
+                var chechedPrivatExpensesIds = checkedExpenses.Where(ce => ce.UserBankAccountId == privatAccount.Id).Select(ce => ce.ExpenseIdentInBank).ToList();
+                var notCkeckedPrivatExpenses = privatExpenses.Where(me => !chechedPrivatExpensesIds.Contains(me.ExpenseIdentInBank)).ToList();
+                notCkeckedPrivatExpenses.ForEach(ncme => ncme.UserBankAccountId = privatAccount.Id);
+                expenses.AddRange(notCkeckedPrivatExpenses);
             }
             //TODO: Add new bank logic here
 
@@ -53,7 +66,7 @@ namespace BLL.Services
 
         public async Task AddExpense(string userId, ExpenseDto expenseDto)
         {
-            var isAdded = _dataBase.ExpenseRepository.FindAll().Any(e => e.BankExpenseId == expenseDto.BankExpenseId
+            var isAdded = _dataBase.ExpenseRepository.FindAll().Any(e => e.ExpenseIdentInBank == expenseDto.ExpenseIdentInBank
                                                                 && e.UserBankAccountId == expenseDto.UserBankAccountId);
             if (isAdded)
                 throw new ModelException("This expense has already been added");

@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210503200419_Adds_Properties_For_PrivatApi")]
+    partial class Adds_Properties_For_PrivatApi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,19 +113,49 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
                     b.Property<int>("Balance")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BankExpenseId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CashbackAmount")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CommissionRate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CounterEdrpou")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CounterIban")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CurrencyCode")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExpenseIdentInBank")
+                    b.Property<bool>("Hold")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mcc")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OperationAmount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReceiptId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
@@ -157,8 +189,8 @@ namespace DAL.Migrations
                     b.Property<string>("Card")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MerchantId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MerchantId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");

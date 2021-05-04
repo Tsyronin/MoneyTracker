@@ -27,8 +27,10 @@ namespace MoneyTracker.Controllers
 
         [HttpGet]
         //[Authorize]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+            var privat = new PrivatHelper();
+            var expenses = privat.GetRecentExpensesAsync("184843", "5167985510072523", "0U4beP52VYC4FLv9CB2JowK0cWQj95vm");
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

@@ -46,6 +46,7 @@ namespace MoneyTracker
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<MonoHelper>();
+            services.AddScoped<PrivatHelper>();
 
             services.AddAutoMapper(typeof(AutomapperProfile));
 
