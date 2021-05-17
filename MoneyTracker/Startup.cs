@@ -38,7 +38,12 @@ namespace MoneyTracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnection")));
-            services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.User.RequireUniqueEmail = true;
+                })
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IExpenseService, ExpenseService>();
@@ -47,6 +52,9 @@ namespace MoneyTracker
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<MonoHelper>();
             services.AddScoped<PrivatHelper>();
+
+            services.AddCors(); //For cross domain queries
+
 
             services.AddAutoMapper(typeof(AutomapperProfile));
 
@@ -78,6 +86,8 @@ namespace MoneyTracker
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

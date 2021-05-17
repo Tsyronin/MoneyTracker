@@ -33,7 +33,7 @@ namespace BLL.Services
         {
             var newUser = new AppUser()
             {
-                UserName = registerModel.Username,
+                UserName = registerModel.Email,
                 Email = registerModel.Email,
                 //FirstName = registerModel.FirstName,
                 //LastName = registerModel.LastName
@@ -43,7 +43,7 @@ namespace BLL.Services
                 return result;
             await _userManager.AddToRoleAsync(newUser, "User");
             await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Email, registerModel.Email));
-            await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Name, registerModel.FirstName));
+            //await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Name, registerModel.FirstName));
             await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.NameIdentifier, newUser.Id));
             return result;
         }
