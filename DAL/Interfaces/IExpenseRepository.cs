@@ -9,10 +9,24 @@ namespace DAL.Interfaces
     public interface IExpenseRepository : IRepository<Expense>
     {
         /// <summary>
-        /// Get Recorded user expenses of last 30 days.
+        /// Gets recorded user expenses of last 30 days.
         /// </summary>
         /// <param name="iserId"></param>
         /// <returns></returns>
-        IQueryable<Expense> GetRecentExpenses(string userId);
+        IQueryable<Expense> GetRecentUserExpenses(string userId);
+
+        /// <summary>
+        /// Gets all recorded user expenses.
+        /// </summary>
+        /// <param name="iserId"></param>
+        /// <returns></returns>
+        IQueryable<Expense> GetUserExpenses(string userId);
+
+        /// <summary>
+        /// Gets all expenses with categories.
+        /// </summary>
+        /// <param name="iserId"></param>
+        /// <returns></returns>
+        IQueryable<Expense> FindAllWithCategories(string userId);
     }
 }

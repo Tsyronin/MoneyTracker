@@ -37,7 +37,7 @@ namespace BLL.Services
         public async Task<IEnumerable<ExpenseDto>> GetNotChackedExpensesAsync(string userId)
         {
             var userBankAccounts = _dataBase.BankAccountRepository.GetUserBankAccounts(userId);
-            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentExpenses(userId).ToList();
+            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentUserExpenses(userId).ToList();
             var expenses = new List<ExpenseDto>();
             if (userBankAccounts.SingleOrDefault(uba => uba.Bank == "Mono") != null)
             {
@@ -80,7 +80,7 @@ namespace BLL.Services
         public IEnumerable<ExpenseDto> GetExpenseHistory(string userId)
         {
             //TODO: Validate userId
-            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentExpenses(userId).ToList();
+            var checkedExpenses = _dataBase.ExpenseRepository.GetUserExpenses(userId).ToList();
             var checkedExpenseDtos = _mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseDto>>(checkedExpenses);
             return checkedExpenseDtos;
         }
@@ -88,7 +88,7 @@ namespace BLL.Services
         public IEnumerable<Statistic> GetStatistics(string userId)
         {
             var statistics = new List<Statistic>();
-            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentExpenses(userId).ToList();
+            var checkedExpenses = _dataBase.ExpenseRepository.GetRecentUserExpenses(userId).ToList();
             var timePeriodStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             var timePeriodEnd = timePeriodStart.AddMonths(1);
             do

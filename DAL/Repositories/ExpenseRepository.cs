@@ -48,12 +48,17 @@ namespace DAL.Repositories
             return _context.Expenses;
         }
 
+        public IQueryable<Expense> FindAllWithCategories(string userId)
+        {
+            return _context.Expenses.Include(e => e.Category);
+        }
+
         public async Task<Expense> GetByIdAsync(int id)
         {
             return await _context.Expenses.FindAsync(id);
         }
 
-        public IQueryable<Expense> GetRecentExpenses(string userId)
+        public IQueryable<Expense> GetRecentUserExpenses(string userId)
         {
             var userAccountIds = _context.UserBankAccounts.Where(uba => uba.AppUserId == userId).Select(uba => uba.Id);
             var from = DateTime.Now.AddDays(-30);
@@ -61,6 +66,15 @@ namespace DAL.Repositories
                                         .Include(e => e.Category)
                                         .Where(e => userAccountIds.Contains(e.UserBankAccountId) && e.Time > from);
             return recentExpenses;
+        }
+
+        public IQueryable<Expense> GetUserExpenses(string userId)
+        {
+            var userAccountIds = _context.UserBankAccounts.Where(uba => uba.AppUserId == userId).Select(uba => uba.Id);
+            var userExpenses = _context.Expenses
+                                        .Include(e => e.Category)
+                                        .Where(e => userAccountIds.Contains(e.UserBankAccountId));
+            return userExpenses;
         }
 
         public void Update(Expense entity)

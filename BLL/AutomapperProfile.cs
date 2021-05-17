@@ -30,7 +30,23 @@ namespace BLL
 
             CreateMap<Category, CategoryDto>().ReverseMap();
 
-            CreateMap<ExpenseDto, Expense>().ReverseMap();
+            CreateMap<ExpenseDto, Expense>();
+
+            CreateMap<Expense, ExpenseDto>()
+                .ForMember(ed => ed.CategoryId, x => x.MapFrom(e => GetCategoryId(e.Category)))
+                .ForMember(ed => ed.CategoryName, x => x.MapFrom(e => GetCategoryName(e.Category)));
         }
+
+
+        private int? GetCategoryId(Category category)
+        {
+            return category?.Id;
+        }
+
+        private string GetCategoryName(Category category)
+        {
+            return category?.Name;
+        }
+
     }
 }
