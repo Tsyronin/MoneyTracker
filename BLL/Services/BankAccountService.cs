@@ -8,6 +8,7 @@ using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,6 @@ namespace BLL.Services
             //TODO: Create bank aggregation class to avoid injecting all helpers and initializing them in otherservices
         }
 
-
         public async Task AddBankAccountAsync(BankAccountDto account)
         {
             switch (account.Bank)
@@ -43,6 +43,8 @@ namespace BLL.Services
                     break;
                 case "Privat":
                     await ValidatePrivatAsync(account);
+                    break;
+                case "Other":
                     break;
                 default:
                     throw new ModelException("Invalid Bank Name");

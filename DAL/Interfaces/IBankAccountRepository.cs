@@ -9,6 +9,7 @@ namespace DAL.Interfaces
 {
     public interface IBankAccountRepository : IRepository<UserBankAccount>
     {
+        UserBankAccount GetBankAccount(string userId, string bankName);
         IQueryable<UserBankAccount> GetUserBankAccounts(string userId);
     }
 }

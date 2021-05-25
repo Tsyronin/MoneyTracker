@@ -26,6 +26,11 @@ namespace DAL.Repositories
             _context = context;
         }
 
+        public UserBankAccount GetBankAccount(string userId, string bankName)
+        {
+            return GetUserBankAccounts(userId).FirstOrDefault(ba => ba.Bank == bankName);
+        }
+
 
         public async Task AddAsync(UserBankAccount entity)
         {

@@ -66,10 +66,19 @@ namespace BLL.Services
 
         public async Task AddExpense(string userId, ExpenseDto expenseDto)
         {
-            var isAdded = _dataBase.ExpenseRepository.FindAll().Any(e => e.ExpenseIdentInBank == expenseDto.ExpenseIdentInBank
-                                                                && e.UserBankAccountId == expenseDto.UserBankAccountId);
-            if (isAdded)
-                throw new ModelException("This expense has already been added");
+
+            if (expenseDto.UserBankAccountId != default)
+            {
+                var isAdded = _dataBase.ExpenseRepository.FindAll().Any(e => e.ExpenseIdentInBank == expenseDto.ExpenseIdentInBank
+                                                                    && e.UserBankAccountId == expenseDto.UserBankAccountId);
+                if (isAdded)
+                    throw new ModelException("This expense has already been added");
+            }
+            else
+            {
+                var defaultAccount = _dataBase.BankAccountRepository.GetBankAccount(userId, "Other");
+                expenseDto.UserBankAccountId = defaultAccount.Id;
+            }
             //TODO: Add validation for time
             //TODO: Add validation for case when user with specified UserBankAccountId doest own the catgory
             var expenseEntity = _mapper.Map<ExpenseDto, Expense>(expenseDto);

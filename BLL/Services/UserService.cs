@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
@@ -17,11 +18,13 @@ namespace BLL.Services
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        readonly IUnitOfWork _dataBase;
 
-        public UserService(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserService(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _dataBase = unitOfWork;
         }
 
         /// <summary>
@@ -35,16 +38,22 @@ namespace BLL.Services
             {
                 UserName = registerModel.Email,
                 Email = registerModel.Email,
-                //FirstName = registerModel.FirstName,
-                //LastName = registerModel.LastName
             };
             var result = await _userManager.CreateAsync(newUser, registerModel.Password);
             if (!result.Succeeded)
                 return result;
             await _userManager.AddToRoleAsync(newUser, "User");
             await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Email, registerModel.Email));
-            //await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.Name, registerModel.FirstName));
             await _userManager.AddClaimAsync(newUser, new Claim(ClaimTypes.NameIdentifier, newUser.Id));
+
+            //Creating default bank account
+            var defaultBankAccount = new UserBankAccount
+            {
+                AppUserId = newUser.Id,
+                Bank = "Other"
+            };
+            await _dataBase.BankAccountRepository.AddAsync(defaultBankAccount);
+            await _dataBase.SaveAsync();
             return result;
         }
 
