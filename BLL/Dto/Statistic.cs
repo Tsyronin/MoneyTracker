@@ -8,13 +8,13 @@ namespace BLL.Dto
     {
         public DateTime SDate { get; set; }
         public DateTime EDate { get; set; }
-        public List<CategoryPercent> Parts { get; set; }
+        public List<CategoryTotal> Parts { get; set; }
     }
 
-    public class CategoryPercent
+    public class CategoryTotal
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public double Percentage { get; set; }
+        public double Amount { get; set; }
     }
 }

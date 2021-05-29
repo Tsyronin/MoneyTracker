@@ -116,20 +116,20 @@ namespace BLL.Services
             {
                 SDate = sDate,
                 EDate = eDate,
-                Parts = new List<CategoryPercent>()
+                Parts = new List<CategoryTotal>()
             };
             var relevantExpenses = expenses.Where(e => e.Time > sDate && e.Time < eDate).ToList();
             var categories = relevantExpenses.Select(re => re.Category).Distinct();
             foreach(var category in categories)
             {
-                var categoryExpenseCount = relevantExpenses.Count(re => re.CategoryId == category.Id);
-                var totalExpenseCount = relevantExpenses.Count;
-                var percent = categoryExpenseCount / totalExpenseCount;
-                var catPercent = new CategoryPercent
+                var categoryTotal = relevantExpenses
+                    .Where(re => re.CategoryId == category.Id)
+                    .Sum(re => Math.Abs(re.Amount));
+                var catPercent = new CategoryTotal
                 {
                     CategoryId = category.Id,
                     CategoryName = category.Name,
-                    Percentage = Math.Round((double)percent, 1)
+                    Amount = categoryTotal
                 };
                 statistic.Parts.Add(catPercent);
             }

@@ -66,12 +66,10 @@ namespace MoneyTracker.Controllers
             string encodedJwt;
             IEnumerable<string> roles;
             encodedJwt = await _userService.GetToken(authModel.Email, authModel.Password);
-            //roles = await _userService.GetUserRoles(authModel.Email);
             var response = new
             {
                 access_token = encodedJwt,
                 email = authModel.Email,
-                //roles = roles
             };
             return Json(response);
         }
